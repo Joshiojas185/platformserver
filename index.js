@@ -538,6 +538,12 @@ io.on('connection', (socket) => {
         }
     });
 
+     // Handles floating reactions
+    socket.on('sendEmoji', (roomName, emoji, position) => {
+        // Emit the emoji to all clients in the room
+        io.to(roomName).emit('receiveEmoji', emoji, position);
+    });
+    
     // Start Quiz
     socket.on('startQuiz', (roomName) => {
         if (rooms[roomName].hosts.includes(socket.id) && rooms[roomName].quizQuestions.length > 0) {
@@ -611,14 +617,14 @@ io.on('connection', (socket) => {
     });
 
     // Chat message Event
-    socket.on('chat message', (roomName, msg) => {
+    socket.on('chat message', (roomName,name,picture ,msg) => {
         console.log('Message received from ' + socket.id + ' in room ' + roomName + ': ' + msg);
         
         // Add message to the room's chat history
         rooms[roomName].chatMessages.push({ id: socket.id, message: msg });
 
         // Emit the chat message to the room
-        io.to(roomName).emit('chat message', { name: socket.id, message: msg });
+        io.to(roomName).emit('chat message', { name: name,picture:picture, message: msg });
     });
 
     // Handle Disconnect
