@@ -1038,6 +1038,10 @@ app.post("/upload", async (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.send("Hello! This is Poll App");
+})
+
 
 app.get('/api/export-results/:roomName', (req, res) => {
     const roomName = req.params.roomName;
