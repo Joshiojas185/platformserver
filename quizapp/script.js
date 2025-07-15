@@ -1,4 +1,4 @@
-const socket = io('http://localhost:5000');
+const socket = io();
 
 const nameInput = document.getElementById('name-input');
 const roomInput = document.getElementById('room-input');
@@ -99,7 +99,7 @@ socket.on('redirect', (data) => {
 
 document.getElementById('download-result').addEventListener('click', async () => {
     const room = roomInput.value.trim();
-    const url = `http://localhost:5000/api/export-results/${room}`;
+    const url = `/api/export-results/${room}`;
 
     try {
         const response = await fetch(url);
