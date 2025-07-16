@@ -982,7 +982,12 @@ const io = socketIo(server, {
 
 app.use(cors());
 
-// app.use(express.static('quizapp'));
+
+
+//Serve Static folders
+app.use('/poll', express.static(path.join(__dirname, 'reactrajasthan', 'poll')));
+
+app.use('/presentation', express.static(path.join(__dirname, 'reactrajasthan', 'presentation')));
 
 app.use('/uploads', express.static('uploads'));
 
@@ -1043,6 +1048,32 @@ app.get('/development', (req, res) => {
 })
 
 
+// app.get('/api/export-results/:roomName', (req, res) => {
+
+//     const roomName = req.params.roomName;
+//     const room = rooms[roomName];
+
+//     if (!room) {
+//         return res.status(404).json({ message: "Room not found" });
+//     }
+
+//     const results = Object.entries(room.scores).map(([email, score]) => ({
+//         name: score.name,
+//         email,
+//         correct: score.correct,
+//         time: score.time
+//     }));
+
+//     try {
+//         const csv = new Parser().parse(results);
+//         res.header('Content-Type', 'text/csv');
+//         res.attachment(`${roomName}_quiz_results.csv`);
+//         return res.send(csv);
+//     } catch (err) {
+//         return res.status(500).json({ message: "Error generating CSV", error: err.message });
+//     }
+// });
+
 app.get('/api/export-results/:roomName', (req, res) => {
     const roomName = req.params.roomName;
     const room = rooms[roomName];
@@ -1058,13 +1089,18 @@ app.get('/api/export-results/:roomName', (req, res) => {
         time: score.time
     }));
 
-    try {
-        const csv = new Parser().parse(results);
-        res.header('Content-Type', 'text/csv');
-        res.attachment(`${roomName}_quiz_results.csv`);
-        return res.send(csv);
-    } catch (err) {
-        return res.status(500).json({ message: "Error generating CSV", error: err.message });
+    // Check the query parameter for type
+    if (req.query.type === 'json') {
+        return res.json(results); // Send JSON response
+    } else {
+        try {
+            const csv = new Parser().parse(results);
+            res.header('Content-Type', 'text/csv');
+            res.attachment(`${roomName}_quiz_results.csv`);
+            return res.send(csv); // Send CSV response
+        } catch (err) {
+            return res.status(500).json({ message: "Error generating CSV", error: err.message });
+        }
     }
 });
 
