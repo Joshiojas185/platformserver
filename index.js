@@ -982,7 +982,7 @@ const io = socketIo(server, {
 
 app.use(cors());
 
-app.use(express.static('quizapp'));
+// app.use(express.static('quizapp'));
 
 app.use('/uploads', express.static('uploads'));
 
@@ -1038,8 +1038,8 @@ app.post("/upload", async (req, res) => {
     }
 });
 
-app.get('/', (req, res) => {
-    res.send("Hello! This is Poll App");
+app.get('/development', (req, res) => {
+    res.send("Hello! This is Quiz App");
 })
 
 
