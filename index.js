@@ -1107,7 +1107,7 @@ app.get('/api/export-results/:roomName', (req, res) => {
 
 let rooms = {};
 
-const validEmails = ['himanshu.codeup@gmail.com', 'joshiojas185@gmail.com'];
+const validEmails = ['himanshu.codeup@gmail.com', 'joshiojas185@gmail.com','priyanka.codeup@gmail.com','shubham.codeup@gmail.com'];
 
 io.on('connection', (socket) => {
     console.log('A user connected:', socket.id);

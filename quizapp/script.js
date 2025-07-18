@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io('https://platformserver.onrender.com/');
 
 const nameInput = document.getElementById('name-input');
 const roomInput = document.getElementById('room-input');
@@ -99,7 +99,7 @@ socket.on('redirect', (data) => {
 
 document.getElementById('download-result').addEventListener('click', async () => {
     const room = roomInput.value.trim();
-    const url = `/api/export-results/${room}`;
+    const url = `https://platformserver.onrender.com/api/export-results/${room}?type=csv`;
 
     try {
         const response = await fetch(url);
