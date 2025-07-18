@@ -1198,6 +1198,11 @@ io.on('connection', (socket) => {
         }
     });
 
+        socket.on('refresh', (roomName) => {
+        console.log(`Refresh event received from ${socket.id}`);
+        io.to(roomName).emit('refresh'); // Broadcast refresh event to all clients
+    });
+
     socket.on('sendEmoji', (roomName, emoji, position) => {
         io.to(roomName).emit('receiveEmoji', emoji, position);
     });
